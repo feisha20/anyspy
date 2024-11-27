@@ -115,35 +115,68 @@ function updateOverlay(info, event) {
     idInput.value = info.id;
 }
 
+function highlightElement(element) {
+    // 确保先清除所有已存在的高亮
+    const highlightedElements = document.querySelectorAll('[data-anyspy-highlight="true"]');
+    highlightedElements.forEach(el => {
+        el.style.outline = '';
+        el.removeAttribute('data-anyspy-highlight');
+    });
+
+    // 设置新的高亮
+    if (element && element !== document.body) {
+        element.style.outline = '2px solid #ff0000';
+        element.setAttribute('data-anyspy-highlight', 'true');
+    }
+}
+
+function removeHighlight(element) {
+    if (element) {
+        element.style.outline = '';
+        element.removeAttribute('data-anyspy-highlight');
+    }
+}
+
+function removeAllHighlights() {
+    const highlightedElements = document.querySelectorAll('[data-anyspy-highlight="true"]');
+    highlightedElements.forEach(el => {
+        el.style.outline = '';
+        el.removeAttribute('data-anyspy-highlight');
+    });
+}
+
 function handleMouseOver(event) {
     if (!isActive) return;
     
     const target = event.target;
     
-    // 如果鼠标在悬浮框内，不做处理
+    // 如果鼠标在悬浮框内，保持最后一个元素的标识
     if (target.closest('.anyspy-overlay')) {
         mouseInOverlay = true;
         if (overlayTimeout) {
             clearTimeout(overlayTimeout);
             overlayTimeout = null;
         }
+        // 确保在悬浮框内时保持上一个元素的高亮
+        if (lastTarget) {
+            highlightElement(lastTarget);
+        }
         return;
     }
     
     mouseInOverlay = false;
     
-    // 避免重复处理相同元素
-    if (target === lastTarget) return;
-    
-    lastTarget = target;
-    
-    if (target.tagName.toLowerCase() === 'body') return;
-    
-    event.stopPropagation();
-    const info = getElementInfo(target);
-    updateOverlay(info, event);
-    
-    target.style.outline = '2px solid #ff0000';
+    // 如果目标是新元素，更新高亮
+    if (target !== lastTarget) {
+        if (target.tagName.toLowerCase() !== 'body') {
+            lastTarget = target;
+            highlightElement(target);
+            
+            event.stopPropagation();
+            const info = getElementInfo(target);
+            updateOverlay(info, event);
+        }
+    }
 }
 
 function handleMouseOut(event) {
@@ -151,29 +184,39 @@ function handleMouseOut(event) {
     
     const target = event.target;
     
-    // 如果移出的是悬浮框，设置延时隐藏
+    // 如果移出的是悬浮框
     if (target.closest('.anyspy-overlay')) {
         mouseInOverlay = false;
         if (!overlayTimeout) {
             overlayTimeout = setTimeout(() => {
                 if (!mouseInOverlay && overlay) {
                     overlay.style.display = 'none';
+                    // 只有当真正隐藏悬浮框时才移除高亮
+                    if (!mouseInOverlay) {
+                        removeAllHighlights();
+                        lastTarget = null;
+                    }
                 }
             }, 200);
         }
         return;
     }
     
-    target.style.outline = '';
-    lastTarget = null;
+    // 如果鼠标在悬浮框内，保持高亮
+    if (mouseInOverlay && lastTarget) {
+        highlightElement(lastTarget);
+        return;
+    }
     
-    // 如果鼠标不在悬浮框内，延时隐藏悬浮框
-    if (!mouseInOverlay && !overlayTimeout) {
-        overlayTimeout = setTimeout(() => {
-            if (!mouseInOverlay && overlay) {
-                overlay.style.display = 'none';
+    // 如果移出的是当前高亮的元素，且鼠标不在悬浮框内
+    if (target === lastTarget && !mouseInOverlay) {
+        // 给一个短暂的延时，以便检查是否移动到了悬浮框
+        setTimeout(() => {
+            if (!mouseInOverlay) {
+                removeAllHighlights();
+                lastTarget = null;
             }
-        }, 200);
+        }, 50);
     }
 }
 
@@ -185,6 +228,34 @@ function handleMouseMove(event) {
     }
     
     handleMouseOver(event);
+}
+
+function handleKeyPress(event) {
+    // 按ESC键退出
+    if (event.key === 'Escape' && isActive) {
+        isActive = false;
+        removeAllHighlights();
+        lastTarget = null;
+        removeOverlay();
+        document.removeEventListener('mouseover', handleMouseOver);
+        document.removeEventListener('mouseout', handleMouseOut);
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('keydown', handleKeyPress);
+    }
+}
+
+function setupEventListeners() {
+    document.addEventListener('mouseover', handleMouseOver);
+    document.addEventListener('mouseout', handleMouseOut);
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('keydown', handleKeyPress);
+}
+
+function removeEventListeners() {
+    document.removeEventListener('mouseover', handleMouseOver);
+    document.removeEventListener('mouseout', handleMouseOut);
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('keydown', handleKeyPress);
 }
 
 function showToast() {
@@ -226,14 +297,23 @@ function setupOverlay() {
                 clearTimeout(overlayTimeout);
                 overlayTimeout = null;
             }
+            // 确保进入悬浮框时保持元素高亮
+            if (lastTarget) {
+                highlightElement(lastTarget);
+            }
         });
         
         overlay.addEventListener('mouseleave', () => {
             mouseInOverlay = false;
+            // 移出悬浮框时，给一个短暂的延时再决定是否移除高亮
             if (!overlayTimeout) {
                 overlayTimeout = setTimeout(() => {
                     if (!mouseInOverlay && overlay) {
                         overlay.style.display = 'none';
+                        if (lastTarget) {
+                            removeHighlight(lastTarget);
+                            lastTarget = null;
+                        }
                     }
                 }, 200);
             }
@@ -260,13 +340,11 @@ document.addEventListener('ANYSPY_TOGGLE', (event) => {
     
     if (isActive) {
         setupOverlay();
-        document.addEventListener('mouseover', handleMouseOver);
-        document.addEventListener('mouseout', handleMouseOut);
-        document.addEventListener('mousemove', handleMouseMove);
+        setupEventListeners();
     } else {
+        removeAllHighlights();
+        lastTarget = null;
         removeOverlay();
-        document.removeEventListener('mouseover', handleMouseOver);
-        document.removeEventListener('mouseout', handleMouseOut);
-        document.removeEventListener('mousemove', handleMouseMove);
+        removeEventListeners();
     }
 });
