@@ -1,8 +1,10 @@
 {
   "manifest_version": 3,
   "name": "AnySpy",
-  "version": "1.0",
-  "description": "A powerful tool to capture element locators like XPath, ID, etc.",
+  "version": "1.0.0",
+  "description": "A powerful tool to capture element locators like XPath, CSS Selector, and ID with intuitive hover interaction.",
+  "author": "your@email.com",
+  "homepage_url": "https://github.com/yourusername/anyspy",
   "permissions": [
     "activeTab",
     "scripting"
@@ -11,7 +13,7 @@
     "<all_urls>"
   ],
   "action": {
-    "default_title": "AnySpy",
+    "default_title": "AnySpy - Element Locator",
     "default_icon": {
       "16": "icons/icon16.png",
       "48": "icons/icon48.png",
@@ -42,5 +44,6 @@
       },
       "description": "Toggle AnySpy"
     }
-  }
+  },
+  "minimum_chrome_version": "88"
 }
