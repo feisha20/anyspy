@@ -3,8 +3,8 @@
   "name": "AnySpy",
   "version": "1.0.0",
   "description": "A powerful tool to capture element locators like XPath, CSS Selector, and ID with intuitive hover interaction.",
-  "author": "your@email.com",
-  "homepage_url": "https://github.com/yourusername/anyspy",
+  "author": "linjintang0303@gmail.com",
+  "homepage_url": "https://github.com/feisha20/anyspy",
   "permissions": [
     "activeTab",
     "scripting"

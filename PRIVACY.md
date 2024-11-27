@@ -38,6 +38,6 @@ This privacy policy may be updated from time to time. Any changes will be reflec
 
 ## Contact
 
-If you have any questions about our privacy policy, please contact us at [contact email].
+If you have any questions about our privacy policy, please contact us at [linjintang0303@gmail.com](mailto:linjintang0303@gmail.com).
 
 Last updated: January 2024

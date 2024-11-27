@@ -41,8 +41,8 @@ AnySpy is a powerful Chrome extension that helps developers and QA engineers qui
 
 If you encounter any issues or have suggestions for improvement, please:
 1. Check our [FAQ](FAQ.md)
-2. Submit an issue on our [GitHub repository]()
-3. Contact us at [support email]
+2. Submit an issue on our [https://github.com/feisha20/anyspy]()
+3. Contact us at [linjintang0303@gmail.com](mailto:linjintang0303@gmail.com)
 
 ## Privacy
 
