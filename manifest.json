@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "AnySpy",
+  "version": "1.0",
+  "description": "A powerful tool to capture element locators like XPath, ID, etc.",
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "action": {
+    "default_title": "AnySpy",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "css": ["styles.css"],
+      "js": ["content.js"]
+    }
+  ]
+}

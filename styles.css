@@ -1,0 +1,52 @@
+.anyspy-overlay {
+    position: fixed;
+    z-index: 999999;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    max-width: 400px;
+}
+
+.anyspy-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.anyspy-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.anyspy-row span {
+    min-width: 50px;
+    font-weight: bold;
+}
+
+.anyspy-row input {
+    flex: 1;
+    padding: 4px 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 12px;
+}
+
+.anyspy-row button {
+    padding: 4px 8px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.anyspy-row button:hover {
+    background: #45a049;
+}
