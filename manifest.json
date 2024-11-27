@@ -5,8 +5,10 @@
   "description": "A powerful tool to capture element locators like XPath, ID, etc.",
   "permissions": [
     "activeTab",
-    "scripting",
-    "commands"
+    "scripting"
+  ],
+  "host_permissions": [
+    "<all_urls>"
   ],
   "action": {
     "default_title": "AnySpy",
@@ -28,7 +30,9 @@
     {
       "matches": ["<all_urls>"],
       "css": ["styles.css"],
-      "js": ["content.js"]
+      "js": ["content.js"],
+      "all_frames": true,
+      "match_about_blank": true
     }
   ],
   "commands": {

@@ -1,120 +1,120 @@
+/* 基础样式 */
 .anyspy-overlay {
     position: fixed;
-    z-index: 999999;
     background: white;
-    border: none;
-    border-radius: 8px;
-    padding: 15px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    z-index: 999999;
+    font-family: Arial, sans-serif;
     font-size: 14px;
-    max-width: 450px;
-    pointer-events: all;
+    display: none;
+    width: 500px;
+    max-width: 90vw;
 }
 
 .anyspy-content {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
 }
 
 .anyspy-row {
     display: flex;
     align-items: center;
-    gap: 10px;
-    position: relative;
+    gap: 8px;
 }
 
-.anyspy-row span {
-    min-width: 55px;
-    font-weight: 600;
-    color: #1a1a1a;
+.anyspy-row label {
+    min-width: 45px;
+    font-weight: bold;
+    color: #333;
+}
+
+.anyspy-row button {
+    padding: 4px 8px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.anyspy-row button:hover {
+    background: #45a049;
+}
+
+.anyspy-row button svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
 }
 
 .anyspy-row input {
     flex: 1;
-    padding: 8px 12px;
-    border: 1px solid #e0e0e0;
-    border-radius: 6px;
-    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-    font-size: 13px;
-    background: #ffffff;
-    color: #2c3e50;
-    transition: all 0.2s ease;
+    padding: 4px 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 12px;
+    background: #f5f5f5;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.anyspy-row input:hover {
-    border-color: #bdc3c7;
+.anyspy-row input:hover,
+.anyspy-row input:focus {
+    white-space: normal;
+    word-break: break-all;
+    overflow: auto;
+    max-height: 100px;
 }
 
-.anyspy-row button {
-    padding: 8px 12px;
-    background: #3498db;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-weight: 500;
-    min-width: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* 光标样式 */
+body.anyspy-active,
+body.anyspy-active * {
+    cursor: pointer !important;
 }
 
-.anyspy-row button:hover {
-    background: #2980b9;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+body.anyspy-active .anyspy-overlay,
+body.anyspy-active .anyspy-overlay * {
+    cursor: default !important;
 }
 
-.anyspy-row button:active {
-    transform: translateY(0);
-    box-shadow: none;
+body.anyspy-active .anyspy-overlay button {
+    cursor: pointer !important;
 }
 
-/* Toast notification */
+/* 复制成功提示 */
 .anyspy-toast {
     position: fixed;
     bottom: 20px;
     left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    background: #2ecc71;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.8);
     color: white;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-weight: 500;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
     z-index: 1000000;
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: none;
 }
 
 .anyspy-toast.show {
-    transform: translateX(-50%) translateY(0);
-    opacity: 1;
+    display: block;
+    animation: fadeInOut 1.5s ease-in-out;
 }
 
-/* Success animation for copy button */
-@keyframes checkmark {
-    0% {
-        transform: scale(0);
-    }
-    50% {
-        transform: scale(1.2);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
-.anyspy-row button.success {
-    background: #2ecc71;
-    pointer-events: none;
-}
-
-.anyspy-row button.success::before {
-    content: "✓";
-    display: inline-block;
-    animation: checkmark 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translate(-50%, 20px); }
+    20% { opacity: 1; transform: translate(-50%, 0); }
+    80% { opacity: 1; transform: translate(-50%, 0); }
+    100% { opacity: 0; transform: translate(-50%, -20px); }
 }
