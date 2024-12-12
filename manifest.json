@@ -5,7 +5,7 @@
   "description": "Locate and copy web element selectors (XPath/CSS/ID) by hovering over elements. Perfect for web developers and test automation.",
   "author": "linjintang0303@gmail.com",
   "homepage_url": "https://github.com/feisha20/anyspy",
-  "privacy_policy_url": "https://github.com/feisha20/anyspy/privacy.html",
+  "privacy_policy_url": "https://github.com/feisha20/anyspy/blob/main/privacy.html",
   "permissions": [
     "activeTab"
   ],
