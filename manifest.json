@@ -2,15 +2,16 @@
   "manifest_version": 3,
   "name": "AnySpy - Element Locator",
   "version": "1.0.0",
-  "description": "Quickly locate and copy web element selectors (XPath/CSS/ID) by hovering over elements. Perfect for web developers and test automation.",
+  "description": "Locate and copy web element selectors (XPath/CSS/ID) by hovering over elements. Perfect for web developers and test automation.",
   "author": "linjintang0303@gmail.com",
   "homepage_url": "https://github.com/feisha20/anyspy",
+  "privacy_policy_url": "https://github.com/feisha20/anyspy/privacy.html",
   "permissions": [
-    "activeTab",
-    "scripting"
+    "activeTab"
   ],
   "host_permissions": [
-    "<all_urls>"
+    "http://*/*",
+    "https://*/*"
   ],
   "action": {
     "default_title": "AnySpy - Web Element Locator",
