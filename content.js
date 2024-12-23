@@ -65,7 +65,11 @@ function getElementInfo(element) {
     if (info.id) {
         info.cssSelector = `#${info.id}`;
     } else if (info.class) {
-        info.cssSelector = `.${info.class.split(' ').join('.')}`;
+        if (typeof info.class === 'string') {
+            info.cssSelector = '.' + info.class.split(' ').join('.');
+        } else {
+            info.cssSelector = info.xpath;
+        }
     } else {
         info.cssSelector = info.xpath;
     }
